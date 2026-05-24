@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. ENVOI RÉEL DE FORMULAIRES (via FormSubmit.co)
     // ==========================================
     // Renseignez votre adresse e-mail ci-dessous pour recevoir les messages
-    const DESTINATION_EMAIL = sebastiennadege83@gmail.com; 
+    const DESTINATION_EMAIL = 'sebastiennadege83@gmail.com'; 
 
     const contactForm = document.getElementById('contactForm');
     const contactSuccess = document.getElementById('contactSuccess');
