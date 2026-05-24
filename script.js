@@ -147,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. ENVOI RÉEL DE FORMULAIRES (via Web3Forms)
     // ==========================================
     // OBTENEZ VOTRE CLÉ GRATUITE SUR https://web3forms.com et collez-la ci-dessous :
-    const WEB3FORMS_ACCESS_KEY = 'COLLEZ_VOTRE_CLE_ICI'; 
+    const WEB3FORMS_ACCESS_KEY = '0819da69-15db-481d-a358-9548c4a8d1f2'; 
 
     const contactForm = document.getElementById('contactForm');
     const contactSuccess = document.getElementById('contactSuccess');
