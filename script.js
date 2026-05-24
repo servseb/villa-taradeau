@@ -144,72 +144,102 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ==========================================
-    // 4. FORM SUBMISSIONS SIMULATION (EMAIL & VIDEO)
+    // 4. ENVOI RÉEL DE FORMULAIRES (via FormSubmit.co)
     // ==========================================
+    // Renseignez votre adresse e-mail ci-dessous pour recevoir les messages
+    const DESTINATION_EMAIL = 'sebastiennadege83@gmail.com'; 
+
     const contactForm = document.getElementById('contactForm');
     const contactSuccess = document.getElementById('contactSuccess');
     
     const videoForm = document.getElementById('videoForm');
     const videoSuccess = document.getElementById('videoSuccess');
 
-    // Contact Form handling
+    // Gestion du formulaire de contact
     contactForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Retrieve form fields values
         const name = document.getElementById('contact-nom').value;
         const email = document.getElementById('contact-email').value;
         const tel = document.getElementById('contact-tel').value;
         const status = document.getElementById('contact-statut').value;
         const message = document.getElementById('contact-msg').value;
 
-        // Visual simulation of loading state
         const submitBtn = contactForm.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Envoi en cours...';
         submitBtn.disabled = true;
 
-        // Simulate API call delay (1.5 seconds)
-        setTimeout(() => {
-            // Hide form and show success message
+        // Envoi des données par e-mail en AJAX (sans recharger la page)
+        fetch(`https://formsubmit.co/ajax/${DESTINATION_EMAIL}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                _subject: "Nouveau message de la page Villa Taradeau",
+                Nom: name,
+                Email: email,
+                Telephone: tel,
+                Statut: status,
+                Message: message
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
             contactForm.style.display = 'none';
             contactSuccess.style.display = 'block';
             contactSuccess.style.animation = 'fadeInUp 0.6s ease forwards';
-            
-            // Console logger to prove form execution and values tracking
-            console.log("Contact form submitted successfully:", { name, email, tel, status, message });
-        }, 1500);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            submitBtn.innerHTML = 'Erreur. Réessayer';
+            submitBtn.disabled = false;
+        });
     });
 
-    // Video Form handling
+    // Gestion du formulaire de visite vidéo
     videoForm.addEventListener('submit', (e) => {
         e.preventDefault();
         
-        // Retrieve video form fields values
         const name = document.getElementById('video-nom').value;
         const email = document.getElementById('video-email').value;
         const tel = document.getElementById('video-tel').value;
 
-        // Visual simulation of loading state
         const submitBtn = videoForm.querySelector('button[type="submit"]');
         submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Envoi du lien...';
         submitBtn.disabled = true;
 
-        // Simulate API call delay (1.5 seconds)
-        setTimeout(() => {
-            // Hide form and show success message inside modal
+        fetch(`https://formsubmit.co/ajax/${DESTINATION_EMAIL}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                _subject: "Demande de visite vidéo - Villa Taradeau",
+                Nom: name,
+                Email: email,
+                Telephone: tel || 'Non renseigné'
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
             videoForm.style.display = 'none';
             videoSuccess.style.display = 'block';
             videoSuccess.style.animation = 'fadeInUp 0.6s ease forwards';
             
-            console.log("Video tour requested successfully:", { name, email, tel });
-            
-            // Auto close modal after 5 seconds
+            // Fermeture automatique de la modale après 5 secondes
             setTimeout(() => {
                 if (videoModal.classList.contains('active')) {
                     closeModal();
                 }
             }, 5000);
-        }, 1500);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            submitBtn.innerHTML = 'Erreur. Réessayer';
+            submitBtn.disabled = false;
+        });
     });
 });
